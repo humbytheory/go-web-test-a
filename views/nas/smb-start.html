@@ -4,27 +4,23 @@
     <div class="page-header">
       <h1><i class="fa fa-sitemap"></i><small> Getting started with network shares</small></h1>
     </div>
-<!--     <div class="row">
-      <div class="col-md-6">
-        <p><a class="btn btn-primary btn-default" href="/nas/new" role="button"><i class="fa fa-lg fa-terminal"></i></a></p>
-        <p><span class=" text-primary" ><i class="fa fa-lg fa-road"></i></span> road</p>
-        <p><span class=" text-primary" ><i class="fa fa-lg fa-envelope-o"></i></span> envelope-o</p>
-      </div>
-    </div> -->
     <div class="row">
       <div class="col-md-12">
         <p class="lead">Hello! Are you ready to request a new network share, modify an exiting share, or perhaps setup a restricted folder?</p>
-        <!-- <p>Before we begin you should know there are essentially 3 different types of shares (Really only two, the third is a special case). Below are all three and the typical use cases.</p>       -->
-        <p>Before we begin, you will need to provide the location of the exiting share or the location for which you would like to request a new allocation, a space increase, or a modification. In the search bar you should use one of the following:</p>
+        <p>Before we begin, you will need to provide the location of the exiting share or the location for which you would like to request a new allocation, a space increase, or a modification.</p>
+        <p>In the search bar you should use one of the following:</p>
         <ul>
-          <li>The full NFS export path: <code>serverName:/export/path</code></li>
-          <li>The full UNC path: <code>\\serverName\shareName</code></li>
-          <li>The full name as shown in My Computer next to the network drive letter. The network drives in My Computer will have either a UNC path like the one above or DFS path that looks something like: <code>share$ domain\server</code>, In either case please use the full location name.</li> 
+          <li>The NFS export path: <code>serverName:/export/path</code></li>
+          <li>The UNC path: <code>\\serverName\shareName</code></li>
+          <li>The name as shown in My Computer next to the network drive letter. The network drives in My Computer will have either a UNC path like the one above or DFS path that looks something like: <code>share$ domain\server</code>, In either case please use the full location name.</li> 
         </ul>
-        <p>Let's get started and enter the full path location into the search bar below.</p>
       </div>
     </div>
-
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Let's get started! Enter the full path location into the search bar below.</h4>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-12">
         <form id="search" role="search" action="/nas/new" method="post" autocomplete="off" autocorrect="off" autocapitalize="off" class="form-horizontal">
@@ -41,7 +37,7 @@
         </form>
       </div>
     </div>
-
+    <hr>
     <div class="row">
       <div class="col-md-6">
         <div class="panel panel-default">
@@ -66,6 +62,13 @@
       </div>
     </div>
 
+<!--     <div class="row">
+      <div class="col-md-6">
+        <p><a class="btn btn-primary btn-default" href="/nas/new" role="button"><i class="fa fa-lg fa-terminal"></i></a></p>
+        <p><span class=" text-primary" ><i class="fa fa-lg fa-road"></i></span> road</p>
+        <p><span class=" text-primary" ><i class="fa fa-lg fa-envelope-o"></i></span> envelope-o</p>
+      </div>
+    </div> -->
 
 <!--
        <div class="bs-callout bs-callout-info">
