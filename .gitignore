@@ -1,7 +1,8 @@
 # my junk         # 
 ###################
 other.txt
-
+ignore
+ignore/*
 # Compiled source #
 ###################
 *.com

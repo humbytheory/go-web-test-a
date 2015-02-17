@@ -1,0 +1,19 @@
+{{define "navbar"}}
+
+  <nav class="navbar navbar-default " role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Storage</a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <!-- <li {{if eq .NavActive "main"}} class="active"{{end}}><a href="/">Main</a></li> -->
+          <!-- <li {{if eq .NavActive "san"}} class="active"{{end}}><a href="/san">SAN</a></li> -->
+          <li {{if eq .NavActive "nas"}} class="active"{{end}}><a href="/nas">Shares</a></li>
+          <!-- <li {{if eq .NavActive "backups"}} class="active"{{end}}><a href="/backups">Backups</a></li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+{{end}}

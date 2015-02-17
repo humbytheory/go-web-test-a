@@ -1,0 +1,193 @@
+{{define "body"}}
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="fa fa-sitemap"></i><small> Getting started with network shares</small></h1>
+    </div>
+<!--     <div class="row">
+      <div class="col-md-6">
+        <p><a class="btn btn-primary btn-default" href="/nas/new" role="button"><i class="fa fa-lg fa-terminal"></i></a></p>
+        <p><span class=" text-primary" ><i class="fa fa-lg fa-road"></i></span> road</p>
+        <p><span class=" text-primary" ><i class="fa fa-lg fa-envelope-o"></i></span> envelope-o</p>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">Hello! Are you ready to request a new network share, modify an exiting share, or perhaps setup a restricted folder?</p>
+        <!-- <p>Before we begin you should know there are essentially 3 different types of shares (Really only two, the third is a special case). Below are all three and the typical use cases.</p>       -->
+        <p>Before we begin, you will need to provide the location of the exiting share or the location for which you would like to request a new allocation, a space increase, or a modification. In the search bar you should use one of the following:</p>
+        <ul>
+          <li>The full NFS export path: <code>serverName:/export/path</code></li>
+          <li>The full UNC path: <code>\\serverName\shareName</code></li>
+          <li>The full name as shown in My Computer next to the network drive letter. The network drives in My Computer will have either a UNC path like the one above or DFS path that looks something like: <code>share$ domain\server</code>, In either case please use the full location name.</li> 
+        </ul>
+        <p>Let's get started and enter the full path location into the search bar below.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <form id="search" role="search" action="/nas/new" method="post" autocomplete="off" autocorrect="off" autocapitalize="off" class="form-horizontal">
+          <div class="form-group">
+            <div class="input-group">
+              <input id="search-input" type="text" placeholder="Search for terms" name="stq" class="form-control"  >
+              <span class="input-group-btn">
+                <button type="submit" value="" class="btn btn-default btn-small">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-lg fa-linux"></i> Linux/Unix Shares
+          </div>
+          <div class="panel-body">
+            <p>You can get the NAS server name and export path by issuing <code>df</code> or <code>mount</code> command at your shell.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default panel-info">
+          <div class="panel-heading">
+            <span><i class="fa fa-lg fa-windows"></i> Windows Shares</span>
+            <span class="pull-right"><i class="fa fa-lg fa-lock"></i> Restricted Folders</span>
+          </div>
+          <div class="panel-body">
+            <p>You can see the full path in My Computer next to the drive letter like <kbd>M:</kbd> or <kbd>T:</kbd></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!--
+       <div class="bs-callout bs-callout-info">
+        <p>Please note that blah blah</p>
+        <ol type="a">
+          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+        </ol>
+      </div>
+    -->
+<!-- 
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel panel-default pandel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-lg fa-linux"></i> Linux/Unix Shares</h3>
+          </div>
+          <div class="panel-body">
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-exchange"></i></span> Applications</p>
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-server"></i></span> Servers</p>
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-database"></i></span> Databases</p>
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-terminal"></i></span> Developers</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-lg fa-windows"></i> Windows Shares</h3>
+          </div>
+          <div class="panel-body">
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-exchange"></i></span> Applications</p>
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-server"></i></span> Servers</p>
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-users"></i></span> Departmental Shares</p>
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-home"></i></span> Home Drives</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default panel-warning">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-lg fa-lock"></i> Restricted Folders</h3>
+          </div>
+          <div class="panel-body">
+            <p><span class=" text-primary" ><i class="fa fa-lg fa-folder-o"></i></span> Sensitive Data</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  -->
+
+
+  <!-- <p>If you already know the location (server name) just start typing it into the search bar below.</p> -->
+
+
+<!--
+<div class="panel panel-default" style="height: 200px; width: 400px;">
+  <div class="panel-body">
+
+  </div>
+</div>
+-->
+
+<!-- 
+<div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+     Donec ornare aliquet commodo. Nullam rhoncus massa sapien, id aliquam enim vehicula eget. Proin aliquet mi non metus hendrerit, at rutrum nibh porttitor. Vivamus sit amet quam sed augue mollis tincidunt. Sed lacinia sapien at justo varius aliquam. 
+   </div>
+ </div>
+</div>
+-->
+
+
+
+
+<!-- 
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar turpis at interdum volutpat. In lacinia sollicitudin risus vel tempor. Curabitur bibendum consequat vulputate. Etiam mattis feugiat odio eget sollicitudin. Curabitur pulvinar maximus tincidunt.Cras elit risus. Curabitur ac metus mi.</p>
+-->
+
+<!-- 
+    <div class="row">
+      <span class="glyphicon glyphicon-home"></span>
+      <button type="button" class="btn btn-default" aria-label="Left Align">
+        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon glyphicon-th" aria-hidden="true"></span> Star
+      </button>
+    </div>
+  -->
+
+<!--     <div class="row">
+      <div class="col-md-8">
+        <form class="form-horizontal" action="/nas/search" method="post" name="search">
+          <fieldset>
+            <legend>Location</legend>
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="searchinput">Search Input</label>
+              <div class="col-md-5">
+                <input id="searchinput" name="searchinput" type="search" placeholder="placeholder" class="form-control input-md">
+                <p class="help-block">help</p>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Panel title</h3>
+          </div>
+          <div class="panel-body">
+            Panel content
+          </div>
+        </div>
+      </div>
+    </div>
+  -->
+
+
+</div>
+</body>
+{{end}}

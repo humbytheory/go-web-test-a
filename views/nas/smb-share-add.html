@@ -1,0 +1,25 @@
+{{define "body"}}
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="panel panel-default panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-lg fa-windows"></i> New Share</h3>
+          </div>
+          <div class="panel-body">
+            {{if eq .FormType "nas-smb-form-new"}} {{template "nas-smb-form-new" .}} {{end}}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <p>blah</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{{end}}

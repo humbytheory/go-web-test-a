@@ -1,0 +1,20 @@
+// Content of base.html:
+{{define "base"}}<!DOCTYPE html>
+<html lang="en">
+
+{{template "head" .}}
+
+<!-- Begin page navbar -->
+{{template "navbar" .}}
+<!-- End page navbar -->
+
+<!-- Begin page content -->
+{{template "body" .}}
+<!-- End page content -->
+
+<!-- Begin page footer -->
+{{template "footer" .}}
+<!-- Begin page footer -->
+
+</html>
+{{end}}

@@ -1,0 +1,136 @@
+{{define "nas-smb-form-new"}}
+
+            <form class="form-horizontal" method="post" action="/nas/new/" name="request">
+              <fieldset>
+
+                <!-- Form Name -->
+                <!-- <legend>New Share</legend> -->
+
+                <!-- Select Basic Classification -->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageClass">Classification</label>
+                  <div class="col-md-3">
+                    <select id="storageClass" name="storageClass" class="form-control">
+                      <option value="Public">Public</option>
+                      <option value="Internal">Internal</option>
+                      <option value="Restricted">Restricted</option>
+                      <option value="Confidential">Confidential</option>
+                      <option value="Secret">Secret</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Multiple Radios (inline) WORM -->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageWorm">WORM</label>
+                  <div class="col-md-3"> 
+                    <label class="radio-inline" for="storageWorm-0">
+                      <input type="radio" name="storageWorm" id="storageWorm-0" value="0" checked="checked">
+                      No
+                    </label> 
+                    <label class="radio-inline" for="storageWorm-1">
+                      <input type="radio" name="storageWorm" id="storageWorm-1" value="1">
+                      Yes
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Select Basic Backups -->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageBackup">Backups</label>
+                  <div class="col-md-3">
+                    <select id="storageBackup" name="storageBackup" class="form-control">
+                      <option value="0">Standard</option>
+                      <option value="1">None</option>
+                      <option value="2">Custom</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Select Basic Size -->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageSize">Size</label>
+                  <div class="col-md-3">
+                    <select id="storageSize" name="storageSize" class="form-control">
+                      <option value="1">1 GB</option>
+                      <option value="5">5 GB</option>
+                      <option value="20">10 GB</option>
+                      <option value="50">20 GB</option>
+                      <option value="100">50 GB</option>
+                      <option value="200">100 GB</option>
+                      <option value="300">200 GB</option>
+                      <option value="500">300 GB</option>
+                      <option value="1000">500 GB</option>
+                      <option value="2000">1 TB</option>
+                      <option value="3000">2 TB</option>
+                      <option value="4000">3 TB</option>
+                      <option value="5000">4 TB</option>
+                      <option value="">5 TB</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Text input Owner-->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageOwner">Owner</label>  
+                  <div class="col-md-7">
+                    <input id="storageOwner" name="storageOwner" type="text" placeholder="Employee ID" class="form-control input-md" required="">
+
+                  </div>
+                </div>
+
+                <!-- Text input Email-->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageAlertGroup">Email Alert</label>  
+                  <div class="col-md-7">
+                    <input id="storageAlertGroup" name="storageAlertGroup" type="email" placeholder="my.team@example.com" class="form-control input-md" required="">
+                    <span class="help-block">Hint: Use team email address</span>  
+                  </div>
+                </div>
+
+                <!-- Text input Requested Name-->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageName">Requested Name</label>  
+                  <div class="col-md-7">
+                    <input id="storageName" name="storageName" type="text" placeholder="Valid Characters a-z A-Z 0-9 _ - (no spaces)" class="form-control input-md" required pattern="^[a-z,A-Z,0-9,_-]{1,50}$">
+                    <!-- <span class="help-block">No spaces or special characters are permitted. Only a-z, A-Z, 0-9, underscore "_", or dash "-" are valid.</span>   -->
+                  </div>
+                </div>
+
+                <!-- Multiple Radios (inline) Hidden -->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageHidden">Hidden</label>
+                  <div class="col-md-4"> 
+                    <label class="radio-inline" for="storageHidden-0">
+                      <input type="radio" name="storageHidden" id="storageHidden-0" value="0" checked="checked">
+                      No
+                    </label> 
+                    <label class="radio-inline" for="storageHidden-1">
+                      <input type="radio" name="storageHidden" id="storageHidden-1" value="1">
+                      Yes
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="storageAccessList">Access List</label>  
+                  <div class="col-md-7">
+                    <input id="storageAccessList" name="storageAccessList" type="text" placeholder="" class="form-control input-md">
+                    <span class="help-block"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Username List</span>
+                    
+                  </div>
+                </div>
+
+                <!-- Button Submit-->
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="submit"></label>
+                  <div class="col-md-4">
+                    <button id="submit" name="submit" class="btn btn-primary">Validate</button>
+                  </div>
+                </div>
+
+              </fieldset>
+            </form>
+
+{{end}}
