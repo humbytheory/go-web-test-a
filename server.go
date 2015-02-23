@@ -1,12 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"time"
 	// "unicode"
 
 	"github.com/astaxie/beego/validation"
@@ -51,18 +53,6 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl["main"].ExecuteTemplate(w, "base", data)
 }
 
-func SanHandler(w http.ResponseWriter, r *http.Request) {
-	data["NavActive"] = "san"
-	log.Printf("get for %v from %s", data["NavActive"], r.RemoteAddr)
-
-	w.Header().Set("Content-type", "text/html")
-	err := r.ParseForm()
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error parsing url %v", err), http.StatusInternalServerError)
-	}
-	tmpl["index"].ExecuteTemplate(w, "base", data)
-}
-
 func NasHandler(w http.ResponseWriter, r *http.Request) {
 	data["NavActive"] = "nas"
 	log.Printf("get for %v from %s", data["NavActive"], r.RemoteAddr)
@@ -84,26 +74,54 @@ func NasNewHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl["nas-new"].ExecuteTemplate(w, "base", data)
 }
 
-func BackupsHandler(w http.ResponseWriter, r *http.Request) {
-	data["NavActive"] = "backups"
-	log.Printf("get for %v from %s", data["NavActive"], r.RemoteAddr)
-
-	w.Header().Set("Content-type", "text/html")
-	err := r.ParseForm()
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error parsing url %v", err), http.StatusInternalServerError)
-	}
-	tmpl["index"].ExecuteTemplate(w, "base", data)
+//----------------------------------------------------------------
+// http://play.golang.org/p/pUCBUgrjZC
+type jsonTime struct {
+	time.Time
+	f string
 }
 
+func (j jsonTime) format() string {
+	return j.Time.Format(j.f)
+}
+
+func (j jsonTime) MarshalText() ([]byte, error) {
+	return []byte(j.format()), nil
+}
+
+func (j jsonTime) MarshalJSON() ([]byte, error) {
+	return []byte(`"` + j.format() + `"`), nil
+}
+
+//----------------------------------------------------------------
+
+// handler to cater AJAX requests
 func RtSearchHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "text/html")
-	log.Printf("get from %s", r.RemoteAddr)
+	w.Header().Set("Content-type", "application/json")
+	log.Printf("post for %v from %s  on path: %v", "PostHandler", r.RemoteAddr, r.URL.Path)
+	log.Printf("form: %v", r.PostFormValue("q"))
+
 	err := r.ParseForm()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("error parsing url %v", err), http.StatusInternalServerError)
 	}
-	tmpl["index"].ExecuteTemplate(w, "base", data)
+	//fmt.Fprint(w, time.Now().Format("Mon, 02 Jan 2006 15:04:05 MST"))
+
+	jt := jsonTime{time.Now(), time.Kitchen}
+	if jt.Before(time.Now().AddDate(0, 0, 1)) { // 1
+		x := map[string]interface{}{
+			"foo": jt,
+			"bar": "something",
+		}
+		data, err := json.Marshal(x)
+
+		if err != nil {
+			panic(err)
+		}
+		// fmt.Fprint(w, fmt.Sprintf("%s", data))
+		fmt.Printf("%v\n", fmt.Sprintf("%s", data))
+		fmt.Fprint(w, `{"status":true,"error":null,"data":{"user":[],"project":[{"id":1,"project":"jQuery Typeahead","image":"","version":"1.7.0","demo":10,"option":23,"callback":6}]}}`)
+	}
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
@@ -161,11 +179,11 @@ func main() {
 	router := mux.NewRouter()
 	router.StrictSlash(true)
 	router.HandleFunc("/", RootHandler).Methods("GET")
-	router.HandleFunc("/san/", SanHandler).Methods("GET")
-	router.HandleFunc("/nas/", NasHandler).Methods("GET")
+	// router.HandleFunc("/san/", SanHandler).Methods("GET")
+	// router.HandleFunc("/nas/", NasHandler).Methods("GET")
+	// router.HandleFunc("/backups/", BackupsHandler).Methods("GET")
 	router.HandleFunc("/nas/new/", NasNewHandler).Methods("GET")
 	router.HandleFunc("/nas/new/", PostHandler).Methods("POST")
-	router.HandleFunc("/backups/", BackupsHandler).Methods("GET")
 	router.HandleFunc("/rtsearch/", RtSearchHandler).Methods("POST")
 
 	router.PathPrefix("/static/").Handler(

@@ -1,6 +1,6 @@
 {{define "nas-smb-form-new"}}
 
-            <form class="form-horizontal" method="post" action="/nas/new/" name="request">
+            <form class="form-horizontal" method="post" action="/nas/new/" name="NewShareRequest" id="NewShareRequest">
               <fieldset>
 
                 <!-- Form Name -->
@@ -9,7 +9,7 @@
                 <!-- Select Basic Classification -->
                 <div class="form-group">
                   <label class="col-md-3 control-label" for="storageClass">Classification</label>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <select id="storageClass" name="storageClass" class="form-control">
                       <option value="Public">Public</option>
                       <option value="Internal">Internal</option>
@@ -23,7 +23,7 @@
                 <!-- Multiple Radios (inline) WORM -->
                 <div class="form-group">
                   <label class="col-md-3 control-label" for="storageWorm">WORM</label>
-                  <div class="col-md-3"> 
+                  <div class="col-md-4"> 
                     <label class="radio-inline" for="storageWorm-0">
                       <input type="radio" name="storageWorm" id="storageWorm-0" value="0" checked="checked">
                       No
@@ -38,7 +38,7 @@
                 <!-- Select Basic Backups -->
                 <div class="form-group">
                   <label class="col-md-3 control-label" for="storageBackup">Backups</label>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <select id="storageBackup" name="storageBackup" class="form-control">
                       <option value="0">Standard</option>
                       <option value="1">None</option>
@@ -50,7 +50,7 @@
                 <!-- Select Basic Size -->
                 <div class="form-group">
                   <label class="col-md-3 control-label" for="storageSize">Size</label>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <select id="storageSize" name="storageSize" class="form-control">
                       <option value="1">1 GB</option>
                       <option value="5">5 GB</option>

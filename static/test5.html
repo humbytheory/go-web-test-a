@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Basic Pills Example</title>
+	<!-- Bootstrap -->
+	<link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">	
+	<link href="/static/vendor/jquery-typeahead/demo/bootstrap_3.2/jquery.typeahead.css" rel="stylesheet">	
+	<link href="/static/css/app.css" rel="stylesheet">
+
+</head>
+
+  <nav class="navbar navbar-default " role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Storage</a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <!-- <li {{if eq .NavActive "main"}} class="active"{{end}}><a href="/">Main</a></li> -->
+          <!-- <li {{if eq .NavActive "san"}} class="active"{{end}}><a href="/san">SAN</a></li> -->
+          <li {{if eq .NavActive "nas"}} class="active"{{end}}><a href="/nas"><i class="fa fa-sitemap"></i> Network Shares</a></li>
+          <!-- <li {{if eq .NavActive "backups"}} class="active"{{end}}><a href="/backups">Backups</a></li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<body>
+	<div class='container'>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="page-header">
+					<h3 class="text-capitalize"><i class="fa fa-lg fa-sitemap"></i> Getting started with network shares</h3>
+					<!-- <small>Departmental &mdash; Application &mdash; User Shares</small> -->
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+
+		        <p class="lead">Hello! Are you ready to <a href="#">request a new network share</a>, <a href="#">modify an exiting share</a>, or perhaps <a href="#">setup a restricted folder</a>?</p>
+		        <p>Before we begin, you will need to know the network path of the share you would like work with.</p>
+		        <p>If this is a new share and you want to use an existing share as a model just enter the existing share's network path into the search bar.</p>
+			    <br>
+				<p class="lead">Enter the full network path into the search bar below.</p>
+				<br>
+
+
+
+			    <form id=""
+			          name=""
+			          action="">
+			        <div class="typeahead-container">
+			            <div class="input-group">
+
+			                <span class="typeahead-query">
+			                    <input id="user_v1-query"
+			                           name="user_v1[query]"
+			                           class="form-control"
+			                           type="search"
+			                           placeholder="Search"
+			                           autocomplete="off">
+			                </span>
+			                <span class="input-group-btn">
+			                    <button type="submit" class="btn btn-default">
+			                        <span class="glyphicon glyphicon-search"></span>
+			                    </button>
+			                </span>
+
+			            </div>
+			        </div>
+			    </form>
+
+				<!--<form id="stq_search" role="search" action="/nas/new" method="post" autocomplete="off" autocorrect="off" autocapitalize="off" class="form-horizontal">
+				<div class="form-group">
+					<div class="input-group">
+						<input id="search-input" type="text" placeholder="" name="stq" class="form-control"  >
+						<span class="input-group-btn">
+							<button type="submit" value="" class="btn btn-success btn-small">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+							</button>
+						</span>
+					</div>
+				</div>
+				</form> -->
+				<br>
+
+				<span id="stq_result"></span>
+			    <br>
+
+			    <p class="lead">Below are examples of what a network path will look like:</p>
+			    <ul>
+			    	<li>An <b>NFS</b> export path: <code>serverName:/export/path</code></li>
+			    	<li>A <b>UNC</b> path: <code>\\serverName\shareName</code></li>
+			    	<li>In My Computer, the network path is shown next to the network drive letter. The network drives will have either a <b>UNC</b> path like the one above or <b>DFS</b> path that looks something like: <code>shareName$ domainName\serverName</code></li> 
+			    </ul>
+
+			</div>
+
+			<div class="col-sm-6">
+
+				<!-- New Windows Share -->
+				<div class="panel panel-default pandel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="text-primary fa fa-lg fa-windows"></i> New Windows Share</h3>
+					</div>
+					<div class="panel-body">
+						<form id="commentForm" method="get" action="" class="form-horizontal">
+							<fieldset>
+								<!-- <legend></legend> -->
+								<!-- EmployeeID -->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="EmployeeID">Employee ID *</label>  
+									<div class="col-md-6">
+										<input id="EmployeeID" name="EmployeeID" placeholder="Employee ID" class="form-control input-md" required="" type="text">
+									</div>
+									<label class="error label label-danger" for="EmployeeID"></label>
+								</div>
+
+								<!-- Metier-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="Metier">Metier</label>  
+									<div class="col-md-6">
+										<input id="Metier" name="Metier" placeholder="Metier / Dept" class="form-control input-md"  type="text">
+									</div>
+									<label class="error label label-danger" for="Metier"></label>
+								</div>
+
+								<!-- EmailOwner-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="EmailOwner">Email Owner *</label>  
+									<div class="col-md-6">
+										<input id="EmailOwner" name="EmailOwner" placeholder="Email Owner" class="form-control input-md" required="" type="email">
+									</div>
+									<label class="error label label-danger" for="EmailOwner"></label>
+								</div>
+
+								<!-- EmailAlert-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="EmailAlert">Email Alert *</label>  
+									<div class="col-md-6">
+										<input id="EmailAlert" name="EmailAlert" placeholder="Email Alert" class="form-control input-md" required="" type="email">
+									</div>
+									<label class="error label label-danger" for="EmailAlert"></label>
+								</div>
+
+								<!-- ShareName-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="ShareName">Share Name *</label>  
+									<div class="col-md-6">
+										<input id="ShareName" name="ShareName" placeholder="Share Name" class="form-control input-md" required="" type="text">
+									</div>
+									<label class="error label label-danger" for="ShareName"></label>
+								</div>
+
+								<!-- CostCenter-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="CostCenter">Cost Center</label>  
+									<div class="col-md-6">
+										<input id="CostCenter" name="CostCenter" placeholder="Cost Center" class="form-control input-md"  type="text">
+									</div>
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend></legend>
+								<!-- DataClassification -->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="DataClassification">Data Classification *</label>
+									<div class="col-md-6">
+										<label class="error label label-danger" for="DataClassification"></label>
+										<select id="DataClassification" name="DataClassification"  class="form-control">
+											<!-- <option value>Select</option> -->
+											<option value="Public">Public</option>
+											<option value="Restricted">Restricted</option>
+											<option value="Confidential">Confidential</option>
+											<option value="Secret">Secret</option>
+										</select>
+									</div>
+								</div>
+
+								<!-- SizeGB -->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="SizeGB">Size GB *</label>
+									<div class="col-md-6">
+										<label class="error label label-danger" for="SizeGB"></label>
+										<select id="SizeGB" name="SizeGB"  class="form-control">
+												<!-- <option value>Select</option> -->
+											<optgroup label="Standard Request Sizes">
+												<option value="1">1</option>
+												<option value="5">5</option>
+												<option value="20">10</option>
+												<option value="50">20</option>
+												<option value="100">50</option>
+												<option value="200">100</option>
+												<option value="300">200</option>
+											</optgroup>
+											<optgroup label="Approval Required">
+												<option value="500">300</option>
+												<option value="1000">500</option>
+												<option value="2000">1000</option>
+												<option value="3000">2000</option>
+											</optgroup>
+										</select>
+
+									</div>
+								</div>
+
+								<!-- BackupRequirements -->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="BackupRequirements">Backup Requirements</label>
+									<div class="col-md-6">
+										<select id="BackupRequirements" name="BackupRequirements" class="form-control">
+											<optgroup label="Default is: Standard">
+												<option value="1">Standard</option>
+												<option value="2">No Backups</option>
+											</optgroup>
+											<optgroup label="You will be contacted if Custom is selected">
+												<option value="3">Custom</option>
+											</optgroup>
+										</select>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend></legend>
+								<!-- ReadOnlyAccess-->
+								<p>You can enter a comma or space delimited list of Employee IDs or Usernames. We will review the list after you click <em>Submit</em>.</p>
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="ReadOnlyAccess">Read Only Access</label>
+									<div class="col-md-8">
+										<input id="ReadOnlyAccess" name="ReadOnlyAccess" placeholder="" class="form-control input-md" type="text">
+									</div>
+								</div>
+
+								<!-- ReadWriteAccess-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="ReadWriteAccess">Read Write Access</label>  
+									<div class="col-md-8">
+										<input id="ReadWriteAccess" name="ReadWriteAccess" placeholder="" class="form-control input-md" type="text">
+									</div>
+								</div>
+
+								<!-- Button -->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="ValidateButton"></label>
+									<div class="col-md-4">
+										<button id="ValidateButton" name="ValidateButton" class="btn btn-primary">Submit</button>
+									</div>
+								</div>
+							</fieldset>
+							<!-- <small class="pull-right text-muted">* Required Fields&nbsp;&nbsp;</small> -->
+						</form>
+						<small class="pull-right text-muted">* Required Fields&nbsp;&nbsp;</small>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+	<script type="text/javascript" src="/static/vendor/jquery/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript" src="/static/vendor/jquery-typeahead/jquery.typeahead.min.js"></script>
+	<script type="text/javascript" src="/static/vendor/jquery-validation/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script>
+	$(document).ready(function() {
+
+        $('#user_v1-query').typeahead({
+            minLength: 1,
+            order: "asc",
+            group: true,
+            groupMaxItem: 5,
+            dynamic: true,
+            delay: 500,
+            // hint: true,
+            filter: "Shares",
+            selector: {
+                filter: "input-group-btn",
+                filterButton: "btn btn-default",
+                dropdown: "dropdown-menu dropdown-menu-right",
+                list: "dropdown-menu",
+                hint: "form-control"
+            },
+ 		    source: {
+		        project: {
+		            url: [{
+		                type: "POST",
+		                url: "/rtsearch/?",
+		                data: {
+		                    q: "{{query}}"
+		                }
+		            }, "data.project"],
+		            display: "project",
+		            template: '<p class="text-danger">{{project}}</p>'
+		        }
+		    },
+		    callback: {
+		        onClick: function (node, a, obj, e) {
+		            alert(JSON.stringify(obj));
+		        }
+		    },
+		    debug: true
+        });
+
+
+
+		var $validator = $("#commentForm").validate({
+			rules: {
+				EmployeeID: "required",
+				// Metier: "required",
+				EmailOwner: {
+					required: true,
+					email: true
+				},
+				EmailAlert: {
+					required: true,
+					email: true
+				},
+				ShareName: "required",
+				// CostCenter: "required",
+				// DataClassification: "required",
+				// SizeGB: "required",
+			},
+			messages: {
+				EmployeeID: "Required",
+				// Metier: "Required",
+				EmailOwner: "Required",
+				EmailAlert: "Required",
+				email: "Required",
+				ShareName: "Required",
+				// CostCenter: "Required"
+				// DataClassification: "Required",
+				// SizeGB: "Required",
+			},
+			highlight: function(element) {
+				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+				$(element).closest('.form-group').children('.error').removeClass('hide');
+			},
+			success: function(element) {
+				$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+				$(element).addClass('hide');
+			}
+		});
+
+	});
+
+
+	</script>
+</body>
+</html>
