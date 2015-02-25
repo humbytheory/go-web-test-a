@@ -8,7 +8,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
+	"regexp"
+	// "time"
 	// "unicode"
 
 	"github.com/astaxie/beego/validation"
@@ -76,30 +77,12 @@ func NasNewHandler(w http.ResponseWriter, r *http.Request) {
 
 //----------------------------------------------------------------
 // http://play.golang.org/p/pUCBUgrjZC
-type jsonTime struct {
-	time.Time
-	f string
-}
-
-func (j jsonTime) format() string {
-	return j.Time.Format(j.f)
-}
-
-func (j jsonTime) MarshalText() ([]byte, error) {
-	return []byte(j.format()), nil
-}
-
-func (j jsonTime) MarshalJSON() ([]byte, error) {
-	return []byte(`"` + j.format() + `"`), nil
-}
-
 //----------------------------------------------------------------
 
 // handler to cater AJAX requests
 func RtSearchHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
-	log.Printf("post for %v from %s  on path: %v", "PostHandler", r.RemoteAddr, r.URL.Path)
-	log.Printf("form: %v", r.PostFormValue("q"))
+	log.Printf("post for %v from %s  on path: %v", "PostHandler  of: %v", r.RemoteAddr, r.URL.Path, r.PostFormValue("q"))
 
 	err := r.ParseForm()
 	if err != nil {
@@ -107,21 +90,57 @@ func RtSearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	//fmt.Fprint(w, time.Now().Format("Mon, 02 Jan 2006 15:04:05 MST"))
 
-	jt := jsonTime{time.Now(), time.Kitchen}
-	if jt.Before(time.Now().AddDate(0, 0, 1)) { // 1
-		x := map[string]interface{}{
-			"foo": jt,
-			"bar": "something",
+	valid := validation.Validation{}
+	// valid.AlphaNumeric(r.PostFormValue("q"), "q")
+	valid.Match(r.PostFormValue("q"), regexp.MustCompile(`[0-9A-Za-z-_ ]+`), "q")
+	if valid.HasErrors() {
+		errormap := []string{}
+		for _, err := range valid.Errors {
+			errormap = append(errormap, "Validation failed on "+err.Key+": "+err.Message+"\n")
 		}
-		data, err := json.Marshal(x)
-
-		if err != nil {
-			panic(err)
+		for _, e := range errormap {
+			log.Printf("%v", e)
+			fmt.Fprint(w, string(e))
 		}
-		// fmt.Fprint(w, fmt.Sprintf("%s", data))
-		fmt.Printf("%v\n", fmt.Sprintf("%s", data))
-		fmt.Fprint(w, `{"status":true,"error":null,"data":{"user":[],"project":[{"id":1,"project":"jQuery Typeahead","image":"","version":"1.7.0","demo":10,"option":23,"callback":6}]}}`)
+		return
 	}
+
+	type Share struct {
+		Type      string `json:"type"`
+		WakkaName string `json:"name"`
+		Server    string `json:"server"`
+	}
+
+	// type Matches struct {
+	// 	Status bool   `json:"status"`
+	// 	Error  string `json:"error"`
+	// 	Results map[string]Share `json:"results"`
+	// }
+	// Shares := make(map[string]Share)
+	// Shares["0"] = Share{Type: "windows", WakkaName: "red", Server: "box1"}
+	// Shares["1"] = Share{Type: "linux", WakkaName: "blue", Server: "box2"}
+
+	type Matches struct {
+		Status  bool    `json:"status"`
+		Error   string  `json:"error"`
+		Results []Share `json:"results"`
+	}
+
+	var stest Share
+	stest.WakkaName = r.PostFormValue("input")
+	stest.Type = "Windows"
+	stest.Server = "orange"
+
+	Shares := []Share{Share{Type: "windows", WakkaName: "red", Server: "box1"},
+		Share{Type: "linux", WakkaName: "blue", Server: "box2"}, stest}
+
+	Hits := &Matches{Status: true, Error: "", Results: Shares}
+
+	b, _ := json.Marshal(Hits)
+	fmt.Fprint(w, string(b))
+	// fmt.Print(string(b))
+	// fmt.Fprint(w, `{"status":true,"error":null,"data":{"user":[],"project":[{"id":1,"project":"jQuery Typeahead","image":"http:\/\/www.runningcoder.org\/assets\/jquerytypeahead\/img\/jquerytypeahead-preview.jpg","version":"1.7.0","demo":10,"option":23,"callback":6}]}}`)
+
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {

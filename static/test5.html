@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Basic Pills Example</title>
-	<!-- Bootstrap -->
+	<title>Kwisatz Haderach</title>
+
 	<link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">	
-	<link href="/static/vendor/jquery-typeahead/demo/bootstrap_3.2/jquery.typeahead.css" rel="stylesheet">	
 	<link href="/static/css/app.css" rel="stylesheet">
 
 </head>
@@ -48,43 +47,21 @@
 				<br>
 
 
-
-			    <form id=""
-			          name=""
-			          action="">
-			        <div class="typeahead-container">
-			            <div class="input-group">
-
-			                <span class="typeahead-query">
-			                    <input id="user_v1-query"
-			                           name="user_v1[query]"
-			                           class="form-control"
-			                           type="search"
-			                           placeholder="Search"
-			                           autocomplete="off">
-			                </span>
-			                <span class="input-group-btn">
-			                    <button type="submit" class="btn btn-default">
-			                        <span class="glyphicon glyphicon-search"></span>
-			                    </button>
-			                </span>
-
-			            </div>
-			        </div>
-			    </form>
-
-				<!--<form id="stq_search" role="search" action="/nas/new" method="post" autocomplete="off" autocorrect="off" autocapitalize="off" class="form-horizontal">
-				<div class="form-group">
-					<div class="input-group">
-						<input id="search-input" type="text" placeholder="" name="stq" class="form-control"  >
-						<span class="input-group-btn">
-							<button type="submit" value="" class="btn btn-success btn-small">
-								<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-							</button>
-						</span>
+				<form id="stq_search" role="search" action="" method="post" autocomplete="off" autocorrect="off" autocapitalize="off" class="form-horizontal">
+					<div class="form-group">
+						<div class="input-group">
+							<input id="search-input" name="search-input" type="text" placeholder="" name="stq" class="form-control"  >
+							<span class="input-group-btn">
+								<button id="button_find" type="submit" value="" class="btn btn-success btn-small">
+									<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+								</button>
+							</span>
+						</div>
 					</div>
-				</div>
-				</form> -->
+				</form>
+				<h4 id="results-text">Showing results for: <strong id="search-string">Array</strong></h4>
+				<ul id="results"></ul>
+
 				<br>
 
 				<span id="stq_result"></span>
@@ -107,7 +84,7 @@
 						<h3 class="panel-title"><i class="text-primary fa fa-lg fa-windows"></i> New Windows Share</h3>
 					</div>
 					<div class="panel-body">
-						<form id="commentForm" method="get" action="" class="form-horizontal">
+						<form id="commentForm" method="post" action="" class="form-horizontal">
 							<fieldset>
 								<!-- <legend></legend> -->
 								<!-- EmployeeID -->
@@ -263,49 +240,79 @@
 
 	</div>
 	<script type="text/javascript" src="/static/vendor/jquery/jquery-2.1.3.min.js"></script>
-	<script type="text/javascript" src="/static/vendor/jquery-typeahead/jquery.typeahead.min.js"></script>
+	<!-- // <script type="text/javascript" src="/static/vendor/jquery-typeahead/jquery.typeahead.min.js"></script> -->
 	<script type="text/javascript" src="/static/vendor/jquery-validation/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script>
 	$(document).ready(function() {
 
-        $('#user_v1-query').typeahead({
-            minLength: 1,
-            order: "asc",
-            group: true,
-            groupMaxItem: 5,
-            dynamic: true,
-            delay: 500,
-            // hint: true,
-            filter: "Shares",
-            selector: {
-                filter: "input-group-btn",
-                filterButton: "btn btn-default",
-                dropdown: "dropdown-menu dropdown-menu-right",
-                list: "dropdown-menu",
-                hint: "form-control"
-            },
- 		    source: {
-		        project: {
-		            url: [{
-		                type: "POST",
-		                url: "/rtsearch/?",
-		                data: {
-		                    q: "{{query}}"
-		                }
-		            }, "data.project"],
-		            display: "project",
-		            template: '<p class="text-danger">{{project}}</p>'
-		        }
-		    },
-		    callback: {
-		        onClick: function (node, a, obj, e) {
-		            alert(JSON.stringify(obj));
-		        }
-		    },
-		    debug: true
-        });
+		// Live Search
+	    function search() {
+		    var query_value = $('#search-input').val();
+		    $('#search-string').text(query_value);
+			if(query_value !== ''){
+				$.ajax({
+					type: "POST",
+					dataType: 'text',
+					url: "/rtsearch/",
+					contentType: 'application/x-www-form-urlencoded',
+					data: { q: query_value },
+					// data: $(this).serialize(),
+					cache: false,
+					success: function(data, textStatus, jQxhr){
+						$("ul#results").html(data);
+						// console.log(data);
+						// console.log(JSON.stringify(data));
+					},
+	                error: function( jqXhr, textStatus, errorThrown ){
+	                    console.log( errorThrown );
+	                }
+				});
+			}return false;    
+		}
 
+		$("#search-input").keyup(function(e) {
+			// Set Timeout
+			clearTimeout($.data(this, 'timer'));
+
+		    // Set Search String
+		    var search_string = $(this).val();
+
+		    // Do Search
+		    if (search_string == '') {
+		    	$("ul#results").fadeOut();
+		    	$('h4#results-text').fadeOut();
+		    }else{
+		    	$("ul#results").fadeIn();
+		    	$('h4#results-text').fadeIn();
+		    	$(this).data('timer', setTimeout(search, 100));
+		    };
+		});
+
+		$("#button_find").click(function(event){ 
+			event.preventDefault(); 
+		}); 
+
+
+		// $("#results").slideUp(); 
+		// $("#button_find").click(function(event){ 
+		// 	event.preventDefault(); 
+		// 	search_ajax_way(); 
+		// }); 
+		// $("#search-input").keyup(function(event){ 
+		// 	event.preventDefault(); 
+		// 	search_ajax_way(); 
+		// }); 
+		// function search_ajax_way(){ 
+		// 	$("#results").show(); 
+		// 	var search_val=$("#search-input").val(); 
+		// 	$.post("/rtsearch/",{
+		// 		searchit : search_val},
+		// 		function(data){
+		// 			console.log(data)
+		// 			$("#results-text").html(data); 
+		// 		})
+		// }
 
 
 		var $validator = $("#commentForm").validate({
