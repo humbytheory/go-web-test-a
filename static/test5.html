@@ -261,6 +261,7 @@
 					cache: false,
 					success: function(data, textStatus, jQxhr){
 						$("ul#results").html(data);
+						last_search_string = query_value;
 						// console.log(data);
 						// console.log(JSON.stringify(data));
 					},
@@ -271,6 +272,7 @@
 			}return false;    
 		}
 
+		var last_search_string = "";
 		$("#search-input").keyup(function(e) {
 			// Set Timeout
 			clearTimeout($.data(this, 'timer'));
@@ -283,9 +285,12 @@
 		    	$("ul#results").fadeOut();
 		    	$('h4#results-text').fadeOut();
 		    }else{
-		    	$("ul#results").fadeIn();
-		    	$('h4#results-text').fadeIn();
-		    	$(this).data('timer', setTimeout(search, 100));
+		    	// console.log(last_search_string+ " vs "+search_string)
+		    	if (last_search_string != search_string){
+		    		$("ul#results").fadeIn();
+		    		$('h4#results-text').fadeIn();
+		    		$(this).data('timer', setTimeout(search, 100));
+		    	};
 		    };
 		});
 

@@ -82,7 +82,8 @@ func NasNewHandler(w http.ResponseWriter, r *http.Request) {
 // handler to cater AJAX requests
 func RtSearchHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
-	log.Printf("post for %v from %s  on path: %v", "PostHandler  of: %v", r.RemoteAddr, r.URL.Path, r.PostFormValue("q"))
+
+	log.Printf("RemoteAddr=[%v]  path=[%v],  PostFormValue=[%v]", r.RemoteAddr, r.URL.Path, r.PostFormValue("q"))
 
 	err := r.ParseForm()
 	if err != nil {
@@ -92,7 +93,7 @@ func RtSearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	valid := validation.Validation{}
 	// valid.AlphaNumeric(r.PostFormValue("q"), "q")
-	valid.Match(r.PostFormValue("q"), regexp.MustCompile(`[0-9A-Za-z-_ ]+`), "q")
+	valid.Match(r.PostFormValue("q"), regexp.MustCompile(`^[a-zA-Z0-9-_\s\\/\$:]+$`), "q")
 	if valid.HasErrors() {
 		errormap := []string{}
 		for _, err := range valid.Errors {
@@ -127,7 +128,7 @@ func RtSearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var stest Share
-	stest.WakkaName = r.PostFormValue("input")
+	stest.WakkaName = r.PostFormValue("q")
 	stest.Type = "Windows"
 	stest.Server = "orange"
 
