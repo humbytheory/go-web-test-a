@@ -112,15 +112,6 @@ func RtSearchHandler(w http.ResponseWriter, r *http.Request) {
 		Server    string `json:"server"`
 	}
 
-	// type Matches struct {
-	// 	Status bool   `json:"status"`
-	// 	Error  string `json:"error"`
-	// 	Results map[string]Share `json:"results"`
-	// }
-	// Shares := make(map[string]Share)
-	// Shares["0"] = Share{Type: "windows", WakkaName: "red", Server: "box1"}
-	// Shares["1"] = Share{Type: "linux", WakkaName: "blue", Server: "box2"}
-
 	type Matches struct {
 		Status  bool    `json:"status"`
 		Error   string  `json:"error"`
